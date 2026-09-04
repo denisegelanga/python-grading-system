@@ -49,7 +49,19 @@ def add_record(stud_id, stud_name, stud_grade):
 
 def update_record(stud_id):
     #update the record by looping through the list and getting the index
-    verify_id(stud_id)
+    for id in stud_ids:
+        if id == stud_id:
+            #get the index of the student id
+            indx = stud_ids.index(id)
+            #get the new name and grade
+            new_name = input("Enter new name: ")
+            new_grade = calc_grade()
+            #update the values in the list
+            stud_names[indx] = new_name
+            stud_grades[indx] = new_grade
+            print(f"Record successfully updated! {new_name} with a student Id of: {stud_id} has a grade average of: {new_grade}!\n")
+        else:
+            print("Student not found.")
 
 def delete_record(stud_id):
     #same thing - loop through the list and delete when found
@@ -59,7 +71,7 @@ def search_record(stud_id):
     #loop through the list and show record of students
     verify_id(stud_id)
 
-def calc_grade(): #loop through the 
+def calc_grade(): #loop through the list and add them all up - divide by the range of the list to get the average
     stud_grade = 0
 
     for i in stud_subjects:
@@ -71,36 +83,37 @@ def calc_grade(): #loop through the
 # - End of functions
 #####################################################################################
 
-user_choice = int(input("Hi, welcome to this school's grading system. How can I help you today?\n" \
-"1. Add student record\n" \
-"2. Update student record\n" \
-"3. Delete student recrod\n" \
-"4. Seach student record\n\n" \
-"Please enter the number of your choice:"))
+def start_grading_system():
+    user_choice = int(input("Hi, welcome to this school's grading system. How can I help you today?\n" \
+    "1. Add student record\n" \
+    "2. Update student record\n" \
+    "3. Delete student recrod\n" \
+    "4. Seach student record\n\n" \
+    "Please enter the number of your choice:"))
 
-stud_id = int(input("Enter your student ID: "))
+    stud_id = int(input("Enter your student ID: "))
 
-#filter the input of the user - making sure it's not empty - never mind verifying if the characters are numerical or not
+    #filter the input of the user - making sure it's not empty - never mind verifying if the characters are numerical or not
 
-while not stud_id: #if empty, don't proceed and keep asking until it's valid
-    stud_id = input("Please enter a valid id.")
-else:
-    if not verify_id(stud_id):
-        if user_choice == 1:
-            stud_name = input("Enter Student Name: ")
-            grd_ave = calc_grade()
-            add_record(stud_id, stud_name, grd_ave)
-        elif user_choice == 2:
-            update_record(stud_id)
-        elif user_choice == 3:
-            delete_record()
-        elif user_choice == 4:
-            search_record()
-        else:
-            user_choice = int(input("Please chooose between 1-4:"))
-            #make this one a funtion
-            #could have a function to reprint the user_choice so it just goes back to it when user input is invalid
-            in_stud_name = input("Student's Full Name: ")
+    while not stud_id: #if empty, don't proceed and keep asking until it's valid
+        stud_id = input("Please enter a valid id.")
+    else:
+        if not verify_id(stud_id):
+            if user_choice == 1:
+                stud_name = input("Enter Student Name: ")
+                grd_ave = calc_grade()
+                add_record(stud_id, stud_name, grd_ave)
+            elif user_choice == 2:
+                update_record(stud_id)
+            elif user_choice == 3:
+                delete_record()
+            elif user_choice == 4:
+                search_record()
+            else:
+                user_choice = int(input("Please chooose between 1-4:"))
+                #make this one a funtion
+                #could have a function to reprint the user_choice so it just goes back to it when user input is invalid
+                in_stud_name = input("Student's Full Name: ")
     
 
 
@@ -112,7 +125,14 @@ else:
 
     Git Repo is ready: python-grading-system @ denisegelanga 
 
+    [02/092026] repo was created on github and cloned to local machine.
+    used a temporary token
+
+    --> Proceed on completing the main logic - function completion
 """
+
+
+
     
 
 
