@@ -30,16 +30,16 @@ def verify_id(p_stud_id):
             user_choice = input("Student ID is already taken. Would you like to update the record instead? Y/N")
 
             # full while loop logic
-            while user_choice.upper != "Y" or user_choice.upper() != "N": user_choice = input("Please enter a valid choice: Y/N")
+            while user_choice.upper() != "Y" and user_choice.upper() != "N": user_choice = input("Please enter a valid choice: Y/N ")
 
             if user_choice.upper() == 'Y':
                 #printing the value for debugging
-                update_record(p_stud_id, indx) #plan is to ask the user to update records when an id is already in the list
+                update_record(p_stud_id) #plan is to ask the user to update records when an id is already in the list
                 #needs to have to loop through the list and get the index from the list so the other list can update accordingly
             elif user_choice.upper() == 'N':
                 return False       
-        else:
-            return True
+    
+    return True
 
 def add_record(stud_id, stud_name, stud_grade):
     stud_ids.append(stud_id)
@@ -60,8 +60,9 @@ def update_record(stud_id):
             stud_names[indx] = new_name
             stud_grades[indx] = new_grade
             print(f"Record successfully updated! {new_name} with a student Id of: {stud_id} has a grade average of: {new_grade}!\n")
-        else:
-            print("Student not found.")
+            return
+        
+    print("Student not found.")
 
 def delete_record(stud_id):
     #same thing - loop through the list and delete when found
@@ -69,7 +70,11 @@ def delete_record(stud_id):
 
 def search_record(stud_id):
     #loop through the list and show record of students
-    verify_id(stud_id)
+    for indx, id in enumerate(stud_ids):
+        if id == stud_id:
+            print(f"Student found! {stud_names[indx]} with a student Id of: {stud_id} has a grade average of: {stud_grades[indx]}!\n")
+        return
+    print("Student not found.")
 
 def calc_grade(): #loop through the list and add them all up - divide by the range of the list to get the average
     stud_grade = 0
@@ -88,7 +93,8 @@ def start_grading_system():
     "1. Add student record\n" \
     "2. Update student record\n" \
     "3. Delete student recrod\n" \
-    "4. Seach student record\n\n" \
+    "4. Seach student record\n" \
+    "5. Exit\n\n" \
     "Please enter the number of your choice:"))
 
     stud_id = int(input("Enter your student ID: "))
@@ -97,39 +103,33 @@ def start_grading_system():
 
     while not stud_id: #if empty, don't proceed and keep asking until it's valid
         stud_id = input("Please enter a valid id.")
-    else:
-        if not verify_id(stud_id):
-            if user_choice == 1:
-                stud_name = input("Enter Student Name: ")
-                grd_ave = calc_grade()
-                add_record(stud_id, stud_name, grd_ave)
-            elif user_choice == 2:
-                update_record(stud_id)
-            elif user_choice == 3:
-                delete_record()
-            elif user_choice == 4:
-                search_record()
-            else:
-                user_choice = int(input("Please chooose between 1-4:"))
-                #make this one a funtion
-                #could have a function to reprint the user_choice so it just goes back to it when user input is invalid
-                in_stud_name = input("Student's Full Name: ")
+
+    if not verify_id(stud_id):
+        if user_choice == 1:
+            stud_name = input("Enter Student Name: ")
+            grd_ave = calc_grade()
+            add_record(stud_id, stud_name, grd_ave)
+            user_choice = 0
+        elif user_choice == 2:
+            update_record(stud_id)
+            user_choice = 0
+        elif user_choice == 3:
+            delete_record()
+            user_choice = 0
+        elif user_choice == 4:
+            search_record()
+            user_choice = 0
+        elif user_choice == 5:
+            print("Thank you for using the Grading System. Goodbye!")
+            exit()
+        else:
+            user_choice = int(input("Please chooose between 1-5:"))
+            #make this one a funtion
+            #could have a function to reprint the user_choice so it just goes back to it when user input is invalid
+            in_stud_name = input("Student's Full Name: ")
+    start_grading_system()
     
-
-
-
-"""
-   next steps:
-    I will clone the git repo to my local machine to ensure I have the latest version of the grading system code.
-    This will help me avoid any conflicts and ensure that I am working with the most up-to-date codebase.
-
-    Git Repo is ready: python-grading-system @ denisegelanga 
-
-    [02/092026] repo was created on github and cloned to local machine.
-    used a temporary token
-
-    --> Proceed on completing the main logic - function completion
-"""
+start_grading_system()
 
 
 
